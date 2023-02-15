@@ -1,28 +1,15 @@
-#ifndef __MONTY_H__
-#define __MONTY_H__
-
-
-/* --------------To be able to use getline func---------------- */
-
-#define  _POSIX_C_SOURCE 200809L
-
-/* ============================================================ */
-
-
+#ifndef MONTY_H
+#define MONTY_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define STACK 1 /* stack mode */
-#define QUEUE 0 /* Queue mode */
-#define DELIM " \n\t\r\a\b"
-#define FAILURE -1
-
+#include <ctype.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/stat.h>
 
 
-
-/* -----------Struct variables to build my stack or queue---------- */
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -31,7 +18,7 @@
  * @next: points to the next element of the stack (or queue)
  *
  * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO
+ * for stack, queues, LIFO, FIFO Holberton project
  */
 typedef struct stack_s
 {
@@ -40,11 +27,7 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
-/* ================================================================ */
 
-
-
-/* -----------link monty opcode to necessary function-------------- */
 
 /**
  * struct instruction_s - opcode and its function
@@ -52,7 +35,7 @@ typedef struct stack_s
  * @f: function to handle the opcode
  *
  * Description: opcode and its function
- * for stack, queues, LIFO, FIFO
+ * for stack, queues, LIFO, FIFO Holberton project
  */
 typedef struct instruction_s
 {
@@ -60,97 +43,33 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/* ================================================================ */
+
+extern FILE *file;
+FILE *file;
+
+void (*operator_function)(stack_t **, unsigned int);
+void (*go(char *op_f, unsigned int l, stack_t **s))(stack_t**, unsigned int);
 
 
+void get_push(stack_t **stack, unsigned int line_number, char *temp);
+void get_pall(stack_t **stack, unsigned int line_number);
+void get_pint(stack_t **stack, unsigned int line_number);
+void get_pop(stack_t **stack, unsigned int line_number);
+void get_swap(stack_t **stack, unsigned int line_number);
+void get_add(stack_t **stack, unsigned int line_number);
+void get_nop(stack_t **stack, unsigned int line_number);
+void get_sub(stack_t **stack, unsigned int line_number);
+void get_div(stack_t **stack, unsigned int line_number);
+void get_mul(stack_t **stack, unsigned int line_number);
+void get_mod(stack_t **stack, unsigned int line_number);
+void get_rotl(stack_t **stack, unsigned int line_number);
+void get_pchar(stack_t **stack, unsigned int line_number);
+void get_rotr(stack_t **stack, unsigned int line_number);
+void get_pstr(stack_t **stack, unsigned int line_number);
+
+void get_free(stack_t *stack);
+int _isdigit(char *str);
 
 
-/* --------------------Global Struct variable---------------------- */
+#endif /* MONTY_H */
 
-/**
- * struct global_s - global struct for monty variable
- * @err_status: error status to hold error term
- * @toks_num: number tokenized from the line read
- */
-typedef struct global_s
-{
-	int err_status;
-	char *toks_num;
-} global_t;
-
-extern global_t global;
-
-/* ================================================================ */
-
-
-
-/* -----------------Monty Handler(#1-parser.c)--------------------- */
-
-int exec_monty(FILE *);
-void (*get_op_func(char *ops))(stack_t **, unsigned int);
-stack_t *stack_init(void);
-int check_mode(stack_t *);
-
-/* ================================================================ */
-
-
-
-/* -------------monty Helper funcs(#2-helper_funcs.c)-------------- */
-
-int is_digit(char *);
-int stack_size(stack_t *);
-stack_t *add_new_node(int);
-
-/* ================================================================ */
-
-
-
-/* -----------------------Monty Operations------------------------- */
-
-
-/* -----------------(#3-handlers.c)------------------------ */
-
-void push_handler(stack_t **stack, unsigned int line_number);
-void pall_handler(stack_t **stack, unsigned int line_number);
-void pint_handler(stack_t **stack, unsigned int line_number);
-void pop_handler(stack_t **stack, unsigned int line_number);
-void swap_handler(stack_t **stack, unsigned int line_number);
-
-
-/* -----------------(#4-handlers.c)------------------------ */
-
-void div_handler(stack_t **stack, unsigned int line_number);
-void mul_handler(stack_t **stack, unsigned int line_number);
-void mod_handler(stack_t **stack, unsigned int line_number);
-void add_handler(stack_t **stack, unsigned int line_number);
-void sub_handler(stack_t **stack, unsigned int line_number);
-
-
-/* -----------------(#5-handlers.c)------------------------ */
-
-void pchar_handler(stack_t **stack, unsigned int line_numb);
-void pstr_handler(stack_t **stack, unsigned int line_number);
-void rotl_handler(stack_t **stack, unsigned int line_number);
-void rotr_handler(stack_t **stack, unsigned int line_number);
-
-
-/* -----------------(#6-handlers.c)------------------------ */
-
-void stack_handler(stack_t **stack, unsigned int line_number);
-void queue_handler(stack_t **stack, unsigned int line_number);
-void nop_handler(stack_t **stack, unsigned int line_number);
-
-
-/* ================================================================ */
-
-
-
-/* ---------------Memory manager(#7-mem_management.c)-------------- */
-
-void free_stack(stack_t **stack);
-
-/* ================================================================ */
-
-
-
-#endif /* __MO
